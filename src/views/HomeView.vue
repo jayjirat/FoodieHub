@@ -3,7 +3,7 @@ import { ref, onMounted } from "vue";
 import { RouterLink } from "vue-router";
 
 import UserLayout from "@/layouts/UserLayout.vue";
-import { useRestaurantStore } from "@/stores/restaurant";
+import { useRestaurantStore } from "@/stores/restaurantStore";
 
 const restaurantStore = useRestaurantStore();
 
@@ -29,7 +29,7 @@ onMounted(() => {
     <div class="flex flex-col m-12">
       <div
         class="card bg-base-100 w-full shadow-xl my-2"
-        v-for="(res, index) in restaurantStore.restaurant"
+        v-for="(res, index) in restaurantStore.restaurants"
         :key="index"
       >
         <div class="card-body">
@@ -40,7 +40,7 @@ onMounted(() => {
               :to="{
                 name: 'restaurant',
                 params: {
-                  id: res.id,
+                  id: res.rID,
                 },
               }"
               class="btn btn-primary"

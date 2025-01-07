@@ -3,23 +3,22 @@ import { defineStore } from "pinia";
 
 export const useRestaurantStore = defineStore("restaurant", {
   state: () => ({
-    restaurant: [
+    restaurants: [
       {
-        id: 1,
+        rID: 1,
         name: "res1",
-        foods: ["hambergur", "chicken"],
         description: "test1",
+        time_open: new Date().toISOString(),
+        time_close: new Date().toISOString(),
       },
       {
-        id: 2,
+        rID: 2,
         name: "res2",
-        foods: ["hambergur", "chicken"],
         description: "test2",
       },
       {
-        id: 3,
+        rID: 3,
         name: "res3",
-        foods: ["hambergur", "chicken"],
         description: "test3",
       },
     ],
@@ -27,11 +26,11 @@ export const useRestaurantStore = defineStore("restaurant", {
   }),
   actions: {
     loadRestaurant() {
-      return this.restaurant;
+      return this.restaurants;
     },
     getRestaurant(resId) {
-      return (this.selectedRestaurant = this.restaurant.find(
-        (res) => res.id === resId
+      return (this.selectedRestaurant = this.restaurants.find(
+        (res) => res.rID === resId
       ));
     },
   },
