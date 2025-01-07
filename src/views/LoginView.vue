@@ -4,9 +4,9 @@ import { RouterLink } from "vue-router";
 
 <template>
   <div class="hero bg-base-200 h-screen">
-    <div class="hero-content flex-col">
+    <div class="hero-content flex-col w-1/2">
       <div class="text-center mb-4">
-        <h1 class="text-5xl font-bold">E commerce project</h1>
+        <h1 class="text-5xl font-bold">Job Portal</h1>
       </div>
       <div class="card bg-base-100 w-full shrink-0 shadow-2xl">
         <form class="card-body">
@@ -33,9 +33,13 @@ import { RouterLink } from "vue-router";
             />
           </div>
           <div class="form-control mt-6">
-            <RouterLink :to="{
-                name:'home-view'
-            }" class="btn btn-primary">Login</RouterLink>
+            <RouterLink
+              :to="{
+                name: 'home-view',
+              }"
+              class="btn btn-primary"
+              >Login</RouterLink
+            >
           </div>
           <a class="label-text-alt link link-hover" href="#"
             >Login via google email</a
