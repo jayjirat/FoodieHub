@@ -122,12 +122,15 @@ const deleteCart = (rID, fID) => {
           </label>
         </div>
         <div class="flex w-full justify-end p-4">
-          <button
+          <RouterLink
             class="btn btn-neutral w-1/3"
             :class="cartStore.carts.length === 0 ? 'btn-disabled' : ''"
+            :to="{
+              name: 'success-view',
+            }"
           >
             Check out
-          </button>
+          </RouterLink>
         </div>
       </div>
     </div>
