@@ -84,5 +84,18 @@ export const useCartStore = defineStore("cart", {
 
       return resCart.foods.reduce((total, food) => total + food.quantity, 0);
     },
+    deleteCart(rID,fID) {
+      const resCart = this.carts.find((cart) => cart.rID === rID);
+      const foodIndex = resCart.foods.findIndex((food) => food.fID === fID);
+      if (foodIndex!= -1) {
+        resCart.foods.splice(foodIndex, 1);
+        if (resCart.foods.length === 0) {
+          const cartIndex = this.carts.findIndex((cart) => cart.rID === rID);
+          if (cartIndex!= -1) {
+            this.carts.splice(cartIndex, 1);
+          }
+        }
+      }
+    },
   },
 });

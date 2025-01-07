@@ -2,13 +2,14 @@ import { createRouter, createWebHistory } from "vue-router";
 import LoginView from "../views/LoginView.vue";
 import HomeView from "../views/HomeView.vue";
 import RestaurantView from "../views/RestaurantView.vue";
+import CartView from "../views/CartView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "/",
-      name: "home",
+      name: "login-view",
       component: LoginView,
     },
     {
@@ -18,8 +19,13 @@ const router = createRouter({
     },
     {
       path: "/restaurant/:id",
-      name: "restaurant",
+      name: "restaurant-view",
       component: RestaurantView,
+    },
+    {
+      path: "/cart",
+      name: "cart-view",
+      component: CartView,
     },
   ],
 });

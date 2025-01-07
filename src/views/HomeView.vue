@@ -38,7 +38,7 @@ onMounted(() => {
           <div class="card-actions justify-end">
             <RouterLink
               :to="{
-                name: 'restaurant',
+                name: 'restaurant-view',
                 params: {
                   id: res.rID,
                 },

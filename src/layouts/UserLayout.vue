@@ -1,4 +1,5 @@
 <script setup>
+import { RouterLink } from "vue-router";
 import { useCartStore } from "@/stores/user/cartStore";
 
 const cartStore = useCartStore();
@@ -35,7 +36,13 @@ const cartStore = useCartStore();
       </div>
     </div>
     <div class="navbar-center">
-      <a class="btn btn-ghost text-xl">Foodie Hub</a>
+      <RouterLink
+        :to="{
+          name: 'home-view',
+        }"
+        class="btn btn-ghost text-xl"
+        >Foodie Hub</RouterLink
+      >
     </div>
     <div class="navbar-end">
       <button class="btn btn-ghost btn-circle">
@@ -111,7 +118,14 @@ const cartStore = useCartStore();
             </div>
           </div>
           <div class="card-actions card-body">
-            <button class="btn btn-primary btn-block">View cart</button>
+            <RouterLink
+              :to="{
+                name: 'cart-view',
+              }"
+              class="btn btn-primary btn-block"
+              :class="cartStore.summaryAllQuantity === 0 ? 'btn-disabled' : ''"
+              >View cart</RouterLink
+            >
           </div>
         </div>
       </div>
