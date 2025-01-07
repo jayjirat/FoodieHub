@@ -5,17 +5,20 @@ import { RouterLink } from "vue-router";
 import UserLayout from "@/layouts/UserLayout.vue";
 import { useRestaurantStore } from "@/stores/user/restaurantStore";
 
+import LoadingCom from "@/components/LoadingCom.vue";
+
 const restaurantStore = useRestaurantStore();
 
-onMounted(() => {
+onMounted(async () => {
   // Mock api
-  restaurantStore.loadRestaurant();
+  await restaurantStore.loadRestaurant();
 });
 </script>
 
 <template>
   <UserLayout>
-    <div class="hero bg-base-200 h-96">
+    <LoadingCom v-show="restaurantStore.isLoading"></LoadingCom>
+    <div v-show="!restaurantStore.isLoading" class="hero bg-base-200 h-96">
       <div class="hero-content text-center">
         <div class="max-w-md">
           <h1 class="text-5xl font-bold">Foodie Hub</h1>

@@ -7,17 +7,19 @@ import { useRestaurantStore } from "@/stores/user/restaurantStore";
 import { useFoodStore } from "@/stores/user/foodStore";
 import { useCartStore } from "@/stores/user/cartStore";
 
+import LoadingCom from "@/components/LoadingCom.vue";
+
 const restaurantStore = useRestaurantStore();
 const foodStore = useFoodStore();
 const cartStore = useCartStore();
 
 const route = useRoute();
-const rID = parseInt(route.params.id);
+const rID = route.params.id;
 
-onMounted(() => {
-  // Mock api
+onMounted(async () => {
+  await restaurantStore.loadRestaurant();
   restaurantStore.getRestaurant(rID);
-  foodStore.getFood(rID);
+  await foodStore.getFood(rID);
 });
 
 const addToCart = (food, rID) => {
@@ -27,7 +29,8 @@ const addToCart = (food, rID) => {
 
 <template>
   <UserLayout>
-    <div class="m-4">
+    <LoadingCom v-show="foodStore.isLoading"></LoadingCom>
+    <div class="m-4" v-show="!foodStore.isLoading">
       <div class="flex flex-row w-full justify-between">
         <div class="text-2xl font-bold flex-1">
           Restaurant: {{ restaurantStore.selectedRestaurant.name }}
@@ -46,7 +49,7 @@ const addToCart = (food, rID) => {
       <div class="grid md:grid-cols-2 lg:grid-cols-4">
         <div
           class="card bg-base-100 w-96 shadow-xl m-4 p-0"
-          v-for="(food, index) in foodStore.selectedFood.foods"
+          v-for="(food, index) in foodStore.foods"
           :key="index"
         >
           <figure>

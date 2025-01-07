@@ -1,34 +1,37 @@
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 
+import { collection, getDocs, doc, getDoc } from "firebase/firestore";
+import { db } from "@/firebase";
+
 export const useRestaurantStore = defineStore("restaurant", {
   state: () => ({
-    restaurants: [
-      {
-        rID: 1,
-        name: "res1",
-        description: "test1",
-        time_open: new Date().toISOString(),
-        time_close: new Date().toISOString(),
-      },
-      {
-        rID: 2,
-        name: "res2",
-        description: "test2",
-        time_open: new Date().toISOString(),
-        time_close: new Date().toISOString(),
-      },
-    ],
+    restaurants: [],
     selectedRestaurant: {},
+    isLoading: false,
   }),
   actions: {
-    loadRestaurant() {
-      return this.restaurants;
+    async loadRestaurant() {
+      this.isLoading = true;
+      const restaurantCol = collection(db, "restaurant");
+      const restaurantSnapshot = await getDocs(restaurantCol);
+      const restaurantList = restaurantSnapshot.docs.map((doc) => {
+        const convertedData = doc.data();
+        convertedData.time_open = convertedData.time_open.toDate();
+        convertedData.time_close = convertedData.time_close.toDate();
+        convertedData.rID = doc.id;
+        this.isLoading = false;
+        return convertedData;
+      });
+
+      if (restaurantList && restaurantList.length > 0) {
+        this.restaurants = restaurantList;
+      }
     },
     getRestaurant(resId) {
-      return (this.selectedRestaurant = this.restaurants.find(
+      this.selectedRestaurant = this.restaurants.find(
         (res) => res.rID === resId
-      ));
+      );
     },
   },
 });
