@@ -1,8 +1,19 @@
 <script setup>
-import { RouterLink } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
 import { useCartStore } from "@/stores/user/cartStore";
 
+import { useAccountStore } from "@/stores/account";
+
+const router = useRouter();
+const accountStore = useAccountStore();
 const cartStore = useCartStore();
+
+const logout = async () => {
+  await accountStore.logout();
+  router.push({
+    name: "login-view",
+  });
+};
 </script>
 
 <template>
@@ -29,7 +40,14 @@ const cartStore = useCartStore();
           tabindex="0"
           class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
         >
-          <li><a>Homepage</a></li>
+          <li>
+            <RouterLink
+              :to="{
+                name: 'home-view',
+              }"
+              >Homepage</RouterLink
+            >
+          </li>
           <li><a>Portfolio</a></li>
           <li><a>About</a></li>
         </ul>
@@ -151,7 +169,7 @@ const cartStore = useCartStore();
             </a>
           </li>
           <li><a>Settings</a></li>
-          <li><a>Logout</a></li>
+          <li><button @click="logout">Logout</button></li>
         </ul>
       </div>
     </div>

@@ -5,6 +5,8 @@ import RestaurantView from "../views/RestaurantView.vue";
 import CartView from "../views/CartView.vue";
 import SuccessView from "../views/SuccessView.vue";
 
+import { useAccountStore } from "@/stores/account";
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -34,6 +36,13 @@ const router = createRouter({
       component: SuccessView,
     },
   ],
+});
+
+router.beforeEach(async (to, from, next) => {
+  const userAccountStore = useAccountStore();
+  await userAccountStore.checkAuthState();
+
+  next();
 });
 
 export default router;
