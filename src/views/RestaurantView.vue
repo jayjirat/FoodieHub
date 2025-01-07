@@ -3,18 +3,26 @@ import { ref, onMounted } from "vue";
 import { RouterLink, useRoute } from "vue-router";
 
 import UserLayout from "@/layouts/UserLayout.vue";
-import { useRestaurantStore } from "@/stores/restaurantStore";
-import { useFoodStore } from "@/stores/foodStore";
+import { useRestaurantStore } from "@/stores/user/restaurantStore";
+import { useFoodStore } from "@/stores/user/foodStore";
+import { useCartStore } from "@/stores/user/cartStore";
 
 const restaurantStore = useRestaurantStore();
 const foodStore = useFoodStore();
+const cartStore = useCartStore();
+
 const route = useRoute();
+const rID = parseInt(route.params.id);
 
 onMounted(() => {
   // Mock api
-  restaurantStore.getRestaurant(parseInt(route.params.id));
-  foodStore.getFood(parseInt(route.params.id));
+  restaurantStore.getRestaurant(rID);
+  foodStore.getFood(rID);
 });
+
+const addToCart = (food, rID) => {
+  cartStore.addToCart(food, rID);
+};
 </script>
 
 <template>
@@ -47,8 +55,11 @@ onMounted(() => {
           <div class="card-body">
             <h2 class="card-title">{{ food.name }}</h2>
             <p>${{ food.price }}</p>
+            <p>remain: {{ food.remainQuantity }}</p>
             <div class="card-actions justify-end">
-              <button class="btn btn-primary">Add to cart</button>
+              <button @click="addToCart(food, rID)" class="btn btn-primary">
+                Add to cart
+              </button>
             </div>
           </div>
         </div>

@@ -15,11 +15,8 @@ export const useRestaurantStore = defineStore("restaurant", {
         rID: 2,
         name: "res2",
         description: "test2",
-      },
-      {
-        rID: 3,
-        name: "res3",
-        description: "test3",
+        time_open: new Date().toISOString(),
+        time_close: new Date().toISOString(),
       },
     ],
     selectedRestaurant: {},

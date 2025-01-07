@@ -3,7 +3,7 @@ import { ref, onMounted } from "vue";
 import { RouterLink } from "vue-router";
 
 import UserLayout from "@/layouts/UserLayout.vue";
-import { useRestaurantStore } from "@/stores/restaurantStore";
+import { useRestaurantStore } from "@/stores/user/restaurantStore";
 
 const restaurantStore = useRestaurantStore();
 
