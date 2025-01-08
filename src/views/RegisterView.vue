@@ -26,7 +26,7 @@ const popupMsg = (message, status) => {
 
 const register = async () => {
   if (password.value !== rePassword.value) {
-    popupMsg("Password does not match", "error");
+    popupMsg("Password does not match", "success");
     return;
   } else {
     if (password.value.length < 6) {
@@ -34,21 +34,14 @@ const register = async () => {
       return;
     } else {
       try {
-        const result = await createUserWithEmailAndPassword(
-          auth,
-          email.value,
-          password.value
-        );
+        const result = await accountStore.register(email.value, password.value);
 
-        const userData = {
-          uID: result.user.uid,
-          email: result.user.email,
-        };
-        await createUser(userData);
-        popupMsg("Register success", "info");
-        router.push({
-          name: "login-view",
-        });
+        if (result.success) {
+          router.push({
+            name: "login-view",
+          });
+          popupMsg(result.message, result.status);
+        }
       } catch (error) {
         if (error.message.includes("email-already-in-use")) {
           popupMsg("Email already in use", "error");
