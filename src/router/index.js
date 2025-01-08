@@ -3,6 +3,7 @@ import LoginView from "../views/LoginView.vue";
 import RegisterView from "../views/RegisterView.vue";
 import ProfileView from "../views/ProfileView.vue";
 import HomeView from "../views/HomeView.vue";
+import AboutView from "../views/AboutView.vue";
 import RestaurantView from "../views/RestaurantView.vue";
 import CartView from "../views/CartView.vue";
 import SuccessView from "../views/SuccessView.vue";
@@ -26,6 +27,11 @@ const router = createRouter({
       path: "/home",
       name: "home-view",
       component: HomeView,
+    },
+    {
+      path: "/about",
+      name: "about-view",
+      component: AboutView,
     },
     {
       path: "/profile",

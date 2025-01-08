@@ -77,7 +77,14 @@ const toggleTheme = () => {
             >
           </li>
           <li><a>My order</a></li>
-          <li><a>About</a></li>
+          <li>
+            <RouterLink
+              :to="{
+                name: 'about-view',
+              }"
+              >About</RouterLink
+            >
+          </li>
         </ul>
       </div>
 
