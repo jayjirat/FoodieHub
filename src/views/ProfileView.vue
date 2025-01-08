@@ -65,7 +65,7 @@ const deleteUser = async () => {
 <template>
   <UserLayout>
     <div
-      class="flex flex-col md:flex-row mx-auto gap-4 w-2/3 p-4 bg-white shadow-2xl my-4"
+      class="flex flex-col md:flex-row mx-auto gap-4 w-2/3 p-4  shadow-2xl my-4"
     >
       <!-- image -->
       <div class="w-full md:w-1/3 p-4">

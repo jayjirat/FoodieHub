@@ -1,7 +1,11 @@
-import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 
+import { db, realtimeDB } from "@/firebase";
+
 import { useRestaurantStore } from "@/stores/user/restaurantStore";
+import { useAccountStore } from "@/stores/account";
+
+import { onValue, ref, set } from "firebase/database";
 
 export const useCartStore = defineStore("cart", {
   state: () => ({
@@ -27,9 +31,25 @@ export const useCartStore = defineStore("cart", {
         );
       }, 0);
     },
+    user(state) {
+      const accountStore = useAccountStore();
+      return accountStore.user;
+    },
+    cartRef(state) {
+      return ref(realtimeDB, `carts/${this.user.uid}`);
+    },
   },
 
   actions: {
+    async loadCart() {
+      if (this.user.uid) {
+        onValue(this.cartRef, (snapshot) => {
+          const data = snapshot.val();
+          this.carts = data || [];
+          console.log("data", data);
+        });
+      }
+    },
     addToCart(food, rID) {
       const restaurantStore = useRestaurantStore();
       const name = restaurantStore.restaurants.find((r) => r.rID === rID).name;
@@ -50,7 +70,7 @@ export const useCartStore = defineStore("cart", {
       this.updateCart(cartData);
     },
 
-    updateCart(cartData) {
+    async updateCart(cartData) {
       const existingResIndex = this.carts.findIndex(
         (cart) => cart.rID === cartData.rID
       );
@@ -70,7 +90,11 @@ export const useCartStore = defineStore("cart", {
       } else {
         this.carts.push(cartData);
       }
+      console.log(this.carts);
+
+      await set(this.cartRef, this.carts);
     },
+
     summaryPriceByRes(rID) {
       const resCart = this.carts.find((cart) => cart.rID === rID);
 
@@ -79,23 +103,26 @@ export const useCartStore = defineStore("cart", {
         0
       );
     },
+
     summaryQuantityByRes(rID) {
       const resCart = this.carts.find((cart) => cart.rID === rID);
 
       return resCart.foods.reduce((total, food) => total + food.quantity, 0);
     },
-    deleteCart(rID,fID) {
+
+    async deleteCart(rID, fID) {
       const resCart = this.carts.find((cart) => cart.rID === rID);
       const foodIndex = resCart.foods.findIndex((food) => food.fID === fID);
-      if (foodIndex!= -1) {
+      if (foodIndex != -1) {
         resCart.foods.splice(foodIndex, 1);
         if (resCart.foods.length === 0) {
           const cartIndex = this.carts.findIndex((cart) => cart.rID === rID);
-          if (cartIndex!= -1) {
+          if (cartIndex != -1) {
             this.carts.splice(cartIndex, 1);
           }
         }
       }
+      await set(this.cartRef, this.carts);
     },
   },
 });
