@@ -8,7 +8,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="toast toast-top toast-end">
+  <div class="toast toast-top toast-end z-50">
     <div :class="`alert alert-${status}`">
       <span>{{ message }}</span>
     </div>

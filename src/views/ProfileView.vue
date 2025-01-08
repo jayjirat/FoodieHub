@@ -12,9 +12,54 @@ const accountStore = useAccountStore();
 
 const router = useRouter();
 
-const email = ref("");
-const password = ref("");
-const rePassword = ref("");
+const newPassword = ref("");
+const newRePassword = ref("");
+
+const changepassword = ref(false);
+
+const toggle = (cancel = false) => {
+  changepassword.value = !changepassword.value;
+  if (cancel) {
+    newPassword.value = "";
+    newRePassword.value = "";
+  }
+};
+
+const changePassword = async () => {
+  if (newPassword.value !== newRePassword.value) {
+    eventStore.popup("Password does not match", "error");
+    newPassword.value = "";
+    newRePassword.value = "";
+  } else {
+    try {
+      await accountStore.changePassword(newPassword.value);
+      eventStore.popup("Password changed successfully", "info");
+    } catch (error) {
+      if (error.message.includes("weak-password")) {
+        eventStore.popup(
+          "Password must be at least 6 characters long",
+          "error"
+        );
+      } else {
+        eventStore.popup("Fail to change password", "error");
+      }
+    }
+  }
+  toggle(true);
+};
+
+const deleteUser = async () => {
+  const result = confirm("Are you sure to delete this user");
+  if (result) {
+    try {
+      await accountStore.deleteUser();
+      router.push({ name: "login-view" });
+      eventStore.popup("Delete user success", "info");
+    } catch (error) {
+      eventStore.popup("Fail to delete user", "error");
+    }
+  }
+};
 </script>
 
 <template>
@@ -66,18 +111,62 @@ const rePassword = ref("");
               </div>
               <input
                 type="email"
-                placeholder="Type here"
                 class="input input-bordered w-full"
                 :value="accountStore.profile.updatedAt"
                 readonly
               />
             </label>
           </div>
+
+          <div class="flex flex-row gap-4" v-show="changepassword">
+            <label class="form-control w-full my-4">
+              <div class="label">
+                <span class="label-text">New password</span>
+              </div>
+              <input
+                type="password"
+                class="input input-bordered w-full"
+                v-model="newPassword"
+              />
+            </label>
+            <label class="form-control w-full my-4">
+              <div class="label">
+                <span class="label-text">Confirm password</span>
+              </div>
+              <input
+                type="password"
+                class="input input-bordered w-full"
+                v-model="newRePassword"
+              />
+            </label>
+          </div>
         </div>
 
         <div class="flex flex-row gap-4 justify-end">
-          <button class="btn btn-neutral">Change Password</button>
-          <button class="btn btn-primary">Delete User</button>
+          <button
+            @click="toggle"
+            class="btn btn-neutral"
+            v-show="!changepassword"
+          >
+            Change Password
+          </button>
+          <button
+            @click="changePassword"
+            class="btn btn-neutral"
+            v-show="changepassword"
+          >
+            Confirm
+          </button>
+          <button
+            @click="toggle(true)"
+            class="btn btn-secondary"
+            v-show="changepassword"
+          >
+            Cancel
+          </button>
+          <button @click="deleteUser" class="btn btn-primary">
+            Delete User
+          </button>
         </div>
       </div>
     </div>

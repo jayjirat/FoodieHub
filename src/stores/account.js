@@ -6,12 +6,13 @@ import {
   signInWithPopup,
   signOut,
   signInWithEmailAndPassword,
-  validatePassword,
+  updatePassword,
+  deleteUser,
 } from "firebase/auth";
 
 import { db, auth } from "@/firebase";
 
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, deleteDoc } from "firebase/firestore";
 
 const provider = new GoogleAuthProvider();
 provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
@@ -68,6 +69,28 @@ export const useAccountStore = defineStore("account", {
         this.user = result.user;
       } catch (error) {
         throw new Error(error.message);
+      }
+    },
+    async changePassword(newPassword) {
+      if (this.user) {
+        try {
+          await updatePassword(this.user, newPassword);
+        } catch (error) {
+          throw new Error(error.message);
+        }
+      } else {
+        console.log("no user");
+      }
+    },
+    async deleteUser() {
+      if (this.user) {
+        const userRef = doc(db, "users", this.user.uid);
+        try {
+          await deleteDoc(userRef);
+          await deleteUser(this.user);
+        } catch (error) {
+          throw new Error();
+        }
       }
     },
   },
