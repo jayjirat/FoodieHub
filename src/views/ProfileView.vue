@@ -5,6 +5,14 @@ import { RouterLink, useRouter } from "vue-router";
 import { useAccountStore } from "@/stores/account";
 import { useEventStore } from "@/stores/event";
 
+import { storage } from "@/firebase";
+import {
+  ref as sRef,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
+
 import UserLayout from "@/layouts/UserLayout.vue";
 
 const eventStore = useEventStore();
@@ -60,21 +68,57 @@ const deleteUser = async () => {
     }
   }
 };
+
+const handleFile = async (event) => {
+  const file = event.target.files[0];
+
+  if (file) {
+    const storageRef = sRef(
+      storage,
+      `users/${accountStore.user.uid}/profile.png`
+    );
+    const snapshot = await uploadBytes(storageRef, file);
+    const downloadURL = await getDownloadURL(snapshot.ref);
+    await accountStore.uploadProfileImage(downloadURL);
+    location.reload();
+  }
+};
+
+const deleteImg = async () => {
+  try {
+    const storageRef = sRef(
+      storage,
+      `users/${accountStore.user.uid}/profile.png`
+    );
+    await deleteObject(storageRef);
+    await accountStore.deleteProfileImage();
+    location.reload();
+  } catch (error) {
+    eventStore.popup("Fail to delete profile picture", "error");
+  }
+};
 </script>
 
 <template>
   <UserLayout>
     <div
-      class="flex flex-col md:flex-row mx-auto gap-4 w-2/3 p-4  shadow-2xl my-4"
+      class="flex flex-col md:flex-row mx-auto gap-4 w-2/3 p-4 shadow-2xl my-4"
     >
       <!-- image -->
       <div class="w-full md:w-1/3 p-4">
-        <div>
+        <div class="flex flex-col items-center">
           <img
             :src="accountStore.profile.imageUrl"
-            class="rounded-full mt-4 mb-8"
+            class="rounded-full mt-4 mb-8 w-64 h-64 object-cover"
           />
-          <input type="file" class="file-input file-input-bordered w-full" />
+          <input
+            type="file"
+            class="file-input file-input-bordered w-full"
+            @change="handleFile"
+          />
+          <button class="btn btn-primary mt-4 w-full" @click="deleteImg">
+            Delete profile picture
+          </button>
         </div>
       </div>
 

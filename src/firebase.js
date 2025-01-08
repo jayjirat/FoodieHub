@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 import { getAuth, connectAuthEmulator } from "firebase/auth";
 import { getDatabase, connectDatabaseEmulator } from "firebase/database";
+import { getStorage, connectStorageEmulator } from 'firebase/storage'
 
 const firebaseConfig = {
   apiKey: "AIzaSyAxLJk9P7knFKnJ7L70nCaiOguCTTDSjfo",
@@ -26,4 +27,8 @@ connectAuthEmulator(auth, "http://127.0.0.1:9099");
 const realtimeDB = getDatabase(app);
 connectDatabaseEmulator(realtimeDB, "127.0.0.1", 9001);
 
-export { db, auth, realtimeDB };
+const storage = getStorage()
+connectStorageEmulator(storage, '127.0.0.1', 9199)
+
+
+export { db, auth, realtimeDB,storage };

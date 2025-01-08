@@ -4,19 +4,17 @@ import UserLayout from "@/layouts/UserLayout.vue";
 
 <template>
   <UserLayout>
-    <section class="bg-gray-100 py-12 px-6 md:px-12 lg:px-24">
+    <section class="py-12 px-6 md:px-12 lg:px-24">
       <div class="max-w-4xl mx-auto text-center">
-        <h1 class="text-4xl font-bold text-gray-800 mb-4">🍔 Foodie Hub</h1>
-        <p class="text-lg text-gray-600 mb-8">
+        <h1 class="text-4xl font-bold mb-4">🍔 Foodie Hub</h1>
+        <p class="text-lg mb-8">
           A modern and intuitive food ordering web application built with the
           latest technologies, designed to offer a seamless user experience.
         </p>
       </div>
-      <div class="max-w-5xl mx-auto bg-white shadow-lg rounded-lg p-8">
-        <h2 class="text-2xl font-semibold text-gray-700 mb-4">
-          🌟 Project Overview
-        </h2>
-        <p class="text-gray-600 mb-6 leading-relaxed">
+      <div class="max-w-5xl mx-auto shadow-2xl rounded-lg p-8">
+        <h2 class="text-2xl font-semibold mb-4">🌟 Project Overview</h2>
+        <p class="mb-6 leading-relaxed">
           <strong>Foodie Hub</strong> is a simulated food ordering web
           application that allows users to browse menus, add items to their
           cart, and experience a streamlined checkout process. The project
@@ -25,14 +23,14 @@ import UserLayout from "@/layouts/UserLayout.vue";
           components, Foodie Hub delivers a delightful experience across
           devices.
         </p>
-        <p class="text-gray-600 mb-6 leading-relaxed">
+        <p class="mb-6 leading-relaxed">
           The platform features a
           <strong>role-based access control (RBAC)</strong> system, dividing
           users into three key roles: <strong>Regular Users</strong>,
           <strong>Store Owners</strong>, and <strong>Administrators</strong>.
           Each role comes with specific permissions and access levels:
         </p>
-        <ul class="list-disc list-inside text-gray-600 mb-6 space-y-2">
+        <ul class="list-disc list-inside mb-6 space-y-2">
           <li>
             <strong>Regular Users:</strong> Can browse menus, place orders, and
             manage their account details.
@@ -47,7 +45,7 @@ import UserLayout from "@/layouts/UserLayout.vue";
             user accounts, handle disputes, and monitor platform analytics.
           </li>
         </ul>
-        <p class="text-gray-600 mb-6 leading-relaxed">
+        <p class="mb-6 leading-relaxed">
           Additionally, Foodie Hub includes a comprehensive
           <strong>monitoring dashboard</strong> that allows administrators and
           store owners to view key metrics, such as order statistics, revenue
@@ -55,10 +53,8 @@ import UserLayout from "@/layouts/UserLayout.vue";
           efficient management, and data-driven decision-making.
         </p>
 
-        <h2 class="text-2xl font-semibold text-gray-700 mb-4">
-          🛠️ Technologies Used
-        </h2>
-        <ul class="list-disc list-inside text-gray-600 mb-6 space-y-2">
+        <h2 class="text-2xl font-semibold mb-4">🛠️ Technologies Used</h2>
+        <ul class="list-disc list-inside mb-6 space-y-2">
           <li>
             <strong>Vue 3:</strong> JavaScript framework for building dynamic
             user interfaces.
@@ -81,10 +77,8 @@ import UserLayout from "@/layouts/UserLayout.vue";
           </li>
         </ul>
 
-        <h2 class="text-2xl font-semibold text-gray-700 mb-4">
-          💡 Key Features
-        </h2>
-        <ul class="list-disc list-inside text-gray-600 mb-6 space-y-2">
+        <h2 class="text-2xl font-semibold mb-4">💡 Key Features</h2>
+        <ul class="list-disc list-inside mb-6 space-y-2">
           <li>
             User-friendly interface for browsing food menus and placing orders.
           </li>
@@ -99,18 +93,16 @@ import UserLayout from "@/layouts/UserLayout.vue";
           <li>User authentication for personalized experiences.</li>
         </ul>
 
-        <h2 class="text-2xl font-semibold text-gray-700 mb-4">🎯 Goals</h2>
-        <p class="text-gray-600 mb-6 leading-relaxed">
+        <h2 class="text-2xl font-semibold mb-4">🎯 Goals</h2>
+        <p class="mb-6 leading-relaxed">
           The goal of <strong>Foodie Hub</strong> is to demonstrate the
           integration of modern frontend and backend technologies to create a
           functional and visually appealing food ordering platform. The app
           emphasizes scalability, responsiveness, and ease of use.
         </p>
 
-        <h2 class="text-2xl font-semibold text-gray-700 mb-4">
-          📊 Future Improvements
-        </h2>
-        <ul class="list-disc list-inside text-gray-600 mb-6 space-y-2">
+        <h2 class="text-2xl font-semibold mb-4">📊 Future Improvements</h2>
+        <ul class="list-disc list-inside mb-6 space-y-2">
           <li>Enhancing order tracking functionality.</li>
           <li>Implementing customer reviews and ratings.</li>
           <li>Adding admin dashboard for order management.</li>

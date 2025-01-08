@@ -46,7 +46,6 @@ export const useCartStore = defineStore("cart", {
         onValue(this.cartRef, (snapshot) => {
           const data = snapshot.val();
           this.carts = data || [];
-          console.log("data", data);
         });
       }
     },
@@ -90,7 +89,6 @@ export const useCartStore = defineStore("cart", {
       } else {
         this.carts.push(cartData);
       }
-      console.log(this.carts);
 
       await set(this.cartRef, this.carts);
     },
