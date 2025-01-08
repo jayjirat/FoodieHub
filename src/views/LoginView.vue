@@ -21,9 +21,9 @@ const loginViaGoogle = async () => {
   }
 };
 
-const loginViaUsernameAndPassword = async (email, password) => {
+const loginViaUsernameAndPassword = async () => {
   try {
-    await accountStore.loginViaUsernameAndPassword(email, password);
+    await accountStore.loginViaUsernameAndPassword(email.value, password.value);
     router.push({
       name: "home-view",
     });
@@ -67,7 +67,8 @@ const loginViaUsernameAndPassword = async (email, password) => {
           </div>
           <div class="form-control mt-6">
             <button
-              @click="loginViaUsernameAndPassword(email, password)"
+              type="button"
+              @click="loginViaUsernameAndPassword()"
               class="btn btn-primary"
             >
               Login
@@ -82,7 +83,13 @@ const loginViaUsernameAndPassword = async (email, password) => {
                 Login via google email
               </button>
             </div>
-            <div class="label-text-alt link link-hover">Register</div>
+            <RouterLink
+              :to="{
+                name: 'register-view',
+              }"
+              class="label-text-alt link link-hover"
+              >Register</RouterLink
+            >
           </div>
         </form>
       </div>

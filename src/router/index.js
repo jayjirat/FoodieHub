@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import LoginView from "../views/LoginView.vue";
+import RegisterView from "../views/RegisterView.vue";
 import HomeView from "../views/HomeView.vue";
 import RestaurantView from "../views/RestaurantView.vue";
 import CartView from "../views/CartView.vue";
@@ -14,6 +15,11 @@ const router = createRouter({
       path: "/",
       name: "login-view",
       component: LoginView,
+    },
+    {
+      path: "/register",
+      name: "register-view",
+      component: RegisterView,
     },
     {
       path: "/home",
@@ -42,7 +48,16 @@ router.beforeEach(async (to, from, next) => {
   const userAccountStore = useAccountStore();
   await userAccountStore.checkAuthState();
 
-  next();
+  if (
+    !userAccountStore.isLoggedIn &&
+    to.name !== "login-view" &&
+    to.name !== "register-view"
+  ) {
+    next({ name: "login-view" });
+    login;
+  } else {
+    next();
+  }
 });
 
 export default router;
