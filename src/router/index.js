@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import LoginView from "../views/LoginView.vue";
 import RegisterView from "../views/RegisterView.vue";
+import ProfileView from "../views/ProfileView.vue";
 import HomeView from "../views/HomeView.vue";
 import RestaurantView from "../views/RestaurantView.vue";
 import CartView from "../views/CartView.vue";
@@ -25,6 +26,11 @@ const router = createRouter({
       path: "/home",
       name: "home-view",
       component: HomeView,
+    },
+    {
+      path: "/profile",
+      name: "profile-view",
+      component: ProfileView,
     },
     {
       path: "/restaurant/:id",

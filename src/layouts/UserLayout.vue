@@ -1,4 +1,5 @@
 <script setup>
+import { onMounted } from "vue";
 import { RouterLink, useRouter } from "vue-router";
 import { useCartStore } from "@/stores/user/cartStore";
 
@@ -48,7 +49,7 @@ const logout = async () => {
               >Homepage</RouterLink
             >
           </li>
-          <li><a>Portfolio</a></li>
+          <li><a>My order</a></li>
           <li><a>About</a></li>
         </ul>
       </div>
@@ -152,10 +153,7 @@ const logout = async () => {
       <div class="dropdown dropdown-end">
         <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
           <div class="w-10 rounded-full">
-            <img
-              alt="Tailwind CSS Navbar component"
-              src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-            />
+            <img :src="accountStore.profile.imageUrl" />
           </div>
         </div>
         <ul
@@ -163,10 +161,13 @@ const logout = async () => {
           class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
         >
           <li>
-            <a class="justify-between">
+            <RouterLink
+              :to="{
+                name: 'profile-view',
+              }"
+            >
               Profile
-              <span class="badge">New</span>
-            </a>
+            </RouterLink>
           </li>
           <li><a>Settings</a></li>
           <li><button @click="logout">Logout</button></li>
