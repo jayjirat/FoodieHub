@@ -57,8 +57,6 @@ export const useAccountStore = defineStore("account", {
         this.isLoggedIn = true;
         this.user = result.user;
       } catch (error) {
-        console.log(error.message);
-
         throw new Error(error.message);
       }
     },

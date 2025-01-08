@@ -2,8 +2,10 @@
 import { ref } from "vue";
 import { RouterLink, useRouter } from "vue-router";
 
+import { useEventStore } from "@/stores/event";
 import { useAccountStore } from "@/stores/account";
 
+const eventStore = useEventStore();
 const accountStore = useAccountStore();
 const router = useRouter();
 
@@ -28,7 +30,15 @@ const loginViaUsernameAndPassword = async () => {
       name: "home-view",
     });
   } catch (error) {
-    console.log(error);
+    if (error.message.includes("wrong-password")) {
+      eventStore.popup("Wrong password please try again", "error");
+      email.value = "";
+      password.value = "";
+    } else {
+      eventStore.popup("Something went wrong please try again", "error");
+      email.value = "";
+      password.value = "";
+    }
   }
 };
 </script>
