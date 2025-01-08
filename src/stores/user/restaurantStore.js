@@ -1,7 +1,15 @@
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 
-import { collection, getDocs, doc, getDoc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  doc,
+  getDoc,
+  query,
+  where,
+  orderBy,
+} from "firebase/firestore";
 import { db } from "@/firebase";
 
 export const useRestaurantStore = defineStore("restaurant", {
@@ -9,16 +17,33 @@ export const useRestaurantStore = defineStore("restaurant", {
     restaurants: [],
     selectedRestaurant: {},
     isLoading: false,
+    query: {
+      search: "",
+      orderedBy: "",
+    },
   }),
   actions: {
     async loadRestaurant() {
       this.isLoading = true;
-      const restaurantCol = collection(db, "restaurant");
+      let restaurantCol = collection(db, "restaurant");
+
+      if (this.query.search) {
+        restaurantCol = query(
+          restaurantCol,
+          where("name", "==", this.query.search)
+        );
+      }
+
+      if (this.query.orderedBy) {
+        restaurantCol = query(
+          restaurantCol,
+          orderBy(this.query.orderedBy, "desc")
+        );
+      }
+
       const restaurantSnapshot = await getDocs(restaurantCol);
       const restaurantList = restaurantSnapshot.docs.map((doc) => {
         const convertedData = doc.data();
-        convertedData.time_open = convertedData.time_open.toDate();
-        convertedData.time_close = convertedData.time_close.toDate();
         convertedData.rID = doc.id;
         this.isLoading = false;
         return convertedData;

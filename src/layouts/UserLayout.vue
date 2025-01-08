@@ -1,11 +1,14 @@
 <script setup>
 import { onMounted } from "vue";
 import { RouterLink, useRouter } from "vue-router";
-import { useCartStore } from "@/stores/user/cartStore";
 
+import { useCartStore } from "@/stores/user/cartStore";
+import { useRestaurantStore } from "@/stores/user/restaurantStore";
 import { useAccountStore } from "@/stores/account";
 
 const router = useRouter();
+
+const restaurantStore = useRestaurantStore();
 const accountStore = useAccountStore();
 const cartStore = useCartStore();
 
@@ -14,6 +17,10 @@ const logout = async () => {
   router.push({
     name: "login-view",
   });
+};
+
+const search = async () => {
+  await restaurantStore.loadRestaurant();
 };
 </script>
 
@@ -64,7 +71,15 @@ const logout = async () => {
       >
     </div>
     <div class="navbar-end">
-      <button class="btn btn-ghost btn-circle">
+      <div class="form-control">
+        <input
+          type="text"
+          placeholder="Search Restaurant..."
+          class="input input-bordered w-12 md:w-auto mr-2"
+          v-model="restaurantStore.query.search"
+        />
+      </div>
+      <button @click="search" class="btn btn-ghost btn-circle">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-5 w-5"

@@ -78,8 +78,6 @@ export const useAccountStore = defineStore("account", {
         } catch (error) {
           throw new Error(error.message);
         }
-      } else {
-        console.log("no user");
       }
     },
     async deleteUser() {

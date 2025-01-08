@@ -25,7 +25,7 @@ const popupMsg = (message, status) => {
 };
 
 const register = async () => {
-  if (password.value != rePassword.value) {
+  if (password.value !== rePassword.value) {
     popupMsg("Password does not match", "error");
     return;
   } else {

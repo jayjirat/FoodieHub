@@ -30,7 +30,7 @@ const addToCart = (food, rID) => {
 <template>
   <UserLayout>
     <LoadingCom v-show="foodStore.isLoading"></LoadingCom>
-    <div class="m-4" v-show="!foodStore.isLoading">
+    <div class="m-8" v-show="!foodStore.isLoading">
       <div class="flex flex-row w-full justify-between">
         <div class="text-2xl font-bold flex-1">
           Restaurant: {{ restaurantStore.selectedRestaurant.name }}
