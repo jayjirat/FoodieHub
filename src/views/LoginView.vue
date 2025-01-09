@@ -21,7 +21,7 @@ const pushPath = () => {
   } else if (accountStore.profile.role === "admin") {
     destination = "admin-view";
   } else {
-    throw new Error("Something went wrong");
+    destination = "home-view";
   }
   router.push({
     name: destination,
@@ -47,7 +47,7 @@ const loginViaUsernameAndPassword = async () => {
       email.value = "";
       password.value = "";
     } else {
-      eventStore.popup("Something went wrong please try again", "error");
+      eventStore.popup(error.message, "error");
       email.value = "";
       password.value = "";
     }
