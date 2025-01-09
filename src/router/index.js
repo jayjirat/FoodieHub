@@ -1,12 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
 import LoginView from "../views/LoginView.vue";
 import RegisterView from "../views/RegisterView.vue";
-import ProfileView from "../views/ProfileView.vue";
-import HomeView from "../views/HomeView.vue";
-import AboutView from "../views/AboutView.vue";
-import RestaurantView from "../views/RestaurantView.vue";
-import CartView from "../views/CartView.vue";
-import SuccessView from "../views/SuccessView.vue";
+import ProfileView from "../views/user/ProfileView.vue";
+import HomeView from "../views/user/HomeView.vue";
+import AboutView from "../views/user/AboutView.vue";
+import RestaurantView from "../views/user/RestaurantView.vue";
+import CartView from "../views/user/CartView.vue";
+import SuccessView from "../views/user/SuccessView.vue";
+import OwnerView from "../views/owner/OwnerView.vue";
 
 import { useAccountStore } from "@/stores/account";
 
@@ -52,6 +53,11 @@ const router = createRouter({
       path: "/success",
       name: "success-view",
       component: SuccessView,
+    },
+    {
+      path: "/owner/dashboard",
+      name: "owner-view",
+      component: OwnerView,
     },
   ],
 });

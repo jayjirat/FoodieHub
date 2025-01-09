@@ -85,7 +85,7 @@ export const useAccountStore = defineStore("account", {
           uID: result.user.uid,
           email: result.user.email,
           status: "active",
-          role: "member",
+          role: "user",
           imageUrl:
             "https://cdn.pixabay.com/photo/2018/11/13/21/43/avatar-3814049_1280.png",
           createdAt: new Date(),

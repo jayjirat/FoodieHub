@@ -12,12 +12,26 @@ const router = useRouter();
 const email = ref("");
 const password = ref("");
 
+const pushPath = () => {
+  let destination = "";
+  if (accountStore.profile.role === "user") {
+    destination = "home-view";
+  } else if (accountStore.profile.role === "owner") {
+    destination = "owner-view";
+  } else if (accountStore.profile.role === "admin") {
+    destination = "admin-view";
+  } else {
+    throw new Error("Something went wrong");
+  }
+  router.push({
+    name: destination,
+  });
+};
+
 const loginViaGoogle = async () => {
   try {
     await accountStore.loginViaGoogle();
-    router.push({
-      name: "home-view",
-    });
+    pushPath();
   } catch (error) {
     console.log(error);
   }
@@ -26,9 +40,7 @@ const loginViaGoogle = async () => {
 const loginViaUsernameAndPassword = async () => {
   try {
     await accountStore.loginViaUsernameAndPassword(email.value, password.value);
-    router.push({
-      name: "home-view",
-    });
+    pushPath();
   } catch (error) {
     if (error.message.includes("wrong-password")) {
       eventStore.popup("Wrong password please try again", "error");
