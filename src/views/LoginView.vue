@@ -14,6 +14,7 @@ const password = ref("");
 
 const pushPath = () => {
   let destination = "";
+  console.log(accountStore.profile.role);
   if (accountStore.profile.role === "user") {
     destination = "home-view";
   } else if (accountStore.profile.role === "owner") {
