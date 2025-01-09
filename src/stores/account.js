@@ -25,13 +25,20 @@ export const useAccountStore = defineStore("account", {
     profile: {},
   }),
   actions: {
+    async getProfile() {
+      const userRef = doc(db, "users", this.user.uid);
+      const userSnapshot = await getDoc(userRef);
+      this.profile = userSnapshot.data();
+      this.profile.createdAt = this.profile.createdAt.toDate();
+      this.profile.updatedAt = this.profile.updatedAt.toDate();
+    },
     async checkAuthState() {
       return new Promise((resolve) => {
         onAuthStateChanged(auth, async (user) => {
           if (user) {
             this.user = user;
             this.isLoggedIn = true;
-
+            this.getProfile();
             resolve(true);
           } else {
             resolve(false);
@@ -44,11 +51,7 @@ export const useAccountStore = defineStore("account", {
         const result = await signInWithPopup(auth, provider);
         this.isLoggedIn = true;
         this.user = result.user;
-        const userRef = doc(db, "users", this.user.uid);
-        const userSnapshot = await getDoc(userRef);
-        this.profile = userSnapshot.data();
-        this.profile.createdAt = this.profile.createdAt.toDate();
-        this.profile.updatedAt = this.profile.updatedAt.toDate();
+        this.getProfile();
       } catch (error) {
         throw new Error(error.message);
       }
@@ -68,11 +71,7 @@ export const useAccountStore = defineStore("account", {
         const result = await signInWithEmailAndPassword(auth, email, password);
         this.isLoggedIn = true;
         this.user = result.user;
-        const userRef = doc(db, "users", this.user.uid);
-        const userSnapshot = await getDoc(userRef);
-        this.profile = userSnapshot.data();
-        this.profile.createdAt = this.profile.createdAt.toDate();
-        this.profile.updatedAt = this.profile.updatedAt.toDate();
+        this.getProfile();
       } catch (error) {
         throw new Error(error.message);
       }

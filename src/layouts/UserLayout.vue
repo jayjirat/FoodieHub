@@ -13,7 +13,6 @@ const restaurantStore = useRestaurantStore();
 const accountStore = useAccountStore();
 const cartStore = useCartStore();
 
-let github = "";
 let ig = "";
 
 const isDark = ref(false);
@@ -46,21 +45,6 @@ const toggleTheme = () => {
   document.documentElement.setAttribute("data-theme", theme);
   localStorage.setItem("theme", theme);
 };
-
-const getImageUrl = async (fileName) => {
-  try {
-    const storageRef = sRef(storage, `logo/${fileName}`);
-    const url = await getDownloadURL(storageRef);
-    return url;
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
-onMounted(async () => {
-  github = await getImageUrl("GitHub_Logo_White.png");
-  console.log(github);
-});
 </script>
 
 <template>
@@ -292,7 +276,7 @@ onMounted(async () => {
     <nav>
       <h6 class="footer-title">Social</h6>
       <div class="grid grid-flow-col gap-4">
-        <a> <img :src="github" alt="" class="h-6" /> </a>
+        <a> <img src="../assets/GitHub_Logo_White.png" class="h-6" /> </a>
         <a>
           <svg
             xmlns="http://www.w3.org/2000/svg"
