@@ -30,35 +30,44 @@ const toggleStatus = async (status) => {
           >
         </div>
         <div class="flex gap-2 flex-col md:flex-row">
-          <RouterLink
-            :to="{
-              name: 'owner-manage-view',
-            }"
-            class="btn"
-            >Back</RouterLink
-          >
-          <button
-            class="btn btn-primary btn-wide"
-            @click="toggleStatus(restaurantStore.selectedRestaurant.status)"
-            type="button"
-          >
-            {{
-              restaurantStore.selectedRestaurant.status === "open"
-                ? "Close restaurant"
-                : "Open restaurant"
-            }}
-          </button>
+          <div class="dropdown dropdown-end">
+            <div tabindex="0" role="button" class="btn btn-neutral">Manage</div>
+            <ul
+              tabindex="0"
+              class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+            >
+              <li><button>Add food</button></li>
+              <li>
+                <RouterLink
+                  :to="{
+                    name: 'owner-edit-view',
+                    params: { id: rID },
+                  }"
+                  >Edit restaurant</RouterLink
+                >
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
       <div class="pl-4">
-        <button class="btn btn-neutral mr-2">Add food</button
-        ><RouterLink
+        <button
+          class="btn btn-primary btn-wide"
+          @click="toggleStatus(restaurantStore.selectedRestaurant.status)"
+          type="button"
+        >
+          {{
+            restaurantStore.selectedRestaurant.status === "open"
+              ? "Close restaurant"
+              : "Open restaurant"
+          }}
+        </button>
+        <RouterLink
           :to="{
-            name: 'owner-edit-view',
-            params: { id: rID },
+            name: 'owner-manage-view',
           }"
-          class="btn btn-accent"
-          >Edit restaurant</RouterLink
+          class="btn ml-2"
+          >Back</RouterLink
         >
       </div>
       <div class="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
