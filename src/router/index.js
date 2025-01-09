@@ -10,6 +10,7 @@ import SuccessView from "../views/user/SuccessView.vue";
 import OwnerView from "../views/owner/OwnerView.vue";
 import OwnerManageView from "../views/owner/ManageView.vue";
 import OwnerCreateView from "../views/owner/CreateView.vue";
+import OwnerRestaurantView from "../views/owner/RestaurantView.vue";
 
 import { useAccountStore } from "@/stores/account";
 
@@ -69,6 +70,16 @@ const router = createRouter({
     {
       path: "/owner/create",
       name: "owner-create-view",
+      component: OwnerCreateView,
+    },
+    {
+      path: "/owner/restaurant/:id",
+      name: "owner-restaurant-view",
+      component: OwnerRestaurantView,
+    },
+    {
+      path: "/owner/restaurant/edit/:id",
+      name: "owner-edit-view",
       component: OwnerCreateView,
     },
   ],

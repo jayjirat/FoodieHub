@@ -25,7 +25,8 @@ export const useRestaurantStore = defineStore("restaurant", {
   actions: {
     async loadRestaurant() {
       this.isLoading = true;
-      let restaurantCol = collection(db, "restaurant");
+      let restaurantCol = query(collection(db, "restaurant"),
+      where("status", "==", "open"));
 
       if (this.query.search) {
         restaurantCol = query(

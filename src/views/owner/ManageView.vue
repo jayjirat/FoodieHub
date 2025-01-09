@@ -17,9 +17,13 @@ onMounted(() => {
     <div class="p-4">
       <div class="flex flex-row justify-between m-4">
         <div class="text-4xl">Manage</div>
-        <RouterLink :to="{
-          name:'owner-create-view'
-        }" class="btn btn-neutral">Create restaurant</RouterLink>
+        <RouterLink
+          :to="{
+            name: 'owner-create-view',
+          }"
+          class="btn btn-neutral"
+          >Create restaurant</RouterLink
+        >
       </div>
       <div>
         <div
@@ -46,7 +50,16 @@ onMounted(() => {
             </div>
 
             <div class="card-actions justify-end">
-              <RouterLink class="btn btn-primary">Go to restaurant</RouterLink>
+              <RouterLink
+                :to="{
+                  name: 'owner-restaurant-view',
+                  params: {
+                    id: res.rID,
+                  },
+                }"
+                class="btn btn-primary"
+                >Go to restaurant</RouterLink
+              >
             </div>
           </div>
         </div>

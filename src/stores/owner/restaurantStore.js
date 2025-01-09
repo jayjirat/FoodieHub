@@ -5,8 +5,9 @@ import {
   collection,
   getDocs,
   doc,
-  getDoc,
+  updateDoc,
   addDoc,
+  deleteDoc,
   query,
   where,
 } from "firebase/firestore";
@@ -51,7 +52,9 @@ export const useRestaurantStore = defineStore("restaurant", {
       const newRes = {
         ...resData,
         owner: useAccountStore().user.uid,
+        status: "open",
         createdAt: new Date(),
+        updatedAt: new Date(),
         rate: 0,
         reviewer: 0,
         score: 0,
@@ -63,6 +66,37 @@ export const useRestaurantStore = defineStore("restaurant", {
         await addDoc(resCol, newRes);
       } catch (error) {
         throw new Error(error.message);
+      }
+    },
+    async deleteRestaurant(resID) {
+      try {
+        const resRef = doc(db, "restaurant", resID);
+        await deleteDoc(resRef);
+        this.restaurants = this.restaurants.filter((res) => res.rID !== resID);
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+    async updateRestaurant(resID, resData) {
+      try {
+        const resRef = doc(db, "restaurant", resID);
+        const updateData = {
+          ...resData,
+          updatedAt: new Date(),
+        };
+        await updateDoc(resRef, updateData);
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+    async toggleRestaurant(resID, status) {
+      let newStatus = status === "open" ? "close" : "open";
+      const resRef = doc(db, "restaurant", resID);
+      await updateDoc(resRef, { status: newStatus });
+
+      const restaurant = this.restaurants.find((res) => res.rID === resID);
+      if (restaurant) {
+        restaurant.status = newStatus;
       }
     },
   },

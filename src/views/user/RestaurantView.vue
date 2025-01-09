@@ -37,10 +37,10 @@ const addToCart = (food, rID) => {
         </div>
         <div class="flex flex-col">
           <div>
-            Time open: {{ restaurantStore.selectedRestaurant.time_open }}
+            Time open: {{ restaurantStore.selectedRestaurant.timeOpen }}
           </div>
           <div>
-            Time close: {{ restaurantStore.selectedRestaurant.time_close }}
+            Time close: {{ restaurantStore.selectedRestaurant.timeClose }}
           </div>
         </div>
         <div></div>
