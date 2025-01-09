@@ -1,9 +1,17 @@
 <script setup>
-import { useRoute, RouterLink } from "vue-router";
+import { useRoute, RouterLink, useRouter } from "vue-router";
 import { ref, onMounted } from "vue";
 
-const route = useRoute();
+import { useAccountStore } from "@/stores/account";
 
+const accountStore = useAccountStore();
+const route = useRoute();
+const router = useRouter();
+
+const logout = () => {
+  accountStore.logout();
+  router.push({ name: "login-view" });
+};
 </script>
 
 <template>
@@ -26,8 +34,18 @@ const route = useRoute();
             >Dashboard</RouterLink
           >
         </li>
-        <li class="mb-2"><a>Manage</a></li>
-        <li class="mb-2"><a>Logout</a></li>
+        <li class="mb-2">
+          <RouterLink
+            :to="{
+              name: 'owner-manage-view',
+            }"
+            :class="route.name === 'owner-manage-view' ? 'btn-active' : ''"
+            >Manage</RouterLink
+          >
+        </li>
+        <li class="mb-2">
+          <button @click="logout">Logout</button>
+        </li>
       </ul>
     </div>
   </div>

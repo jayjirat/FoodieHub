@@ -8,6 +8,8 @@ import RestaurantView from "../views/user/RestaurantView.vue";
 import CartView from "../views/user/CartView.vue";
 import SuccessView from "../views/user/SuccessView.vue";
 import OwnerView from "../views/owner/OwnerView.vue";
+import OwnerManageView from "../views/owner/ManageView.vue";
+import OwnerCreateView from "../views/owner/CreateView.vue";
 
 import { useAccountStore } from "@/stores/account";
 
@@ -58,6 +60,16 @@ const router = createRouter({
       path: "/owner/dashboard",
       name: "owner-view",
       component: OwnerView,
+    },
+    {
+      path: "/owner/manage",
+      name: "owner-manage-view",
+      component: OwnerManageView,
+    },
+    {
+      path: "/owner/create",
+      name: "owner-create-view",
+      component: OwnerCreateView,
     },
   ],
 });
