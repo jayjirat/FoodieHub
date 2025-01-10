@@ -4,12 +4,14 @@ import { defineStore } from "pinia";
 import {
   collection,
   getDocs,
+  getDoc,
   doc,
   updateDoc,
   addDoc,
   deleteDoc,
   query,
   where,
+  arrayUnion,
 } from "firebase/firestore";
 import { db } from "@/firebase";
 
@@ -19,6 +21,7 @@ export const useRestaurantStore = defineStore("restaurant", {
   state: () => ({
     restaurants: [],
     selectedRestaurant: {},
+    selectedFood: {},
     isLoading: false,
   }),
   actions: {
@@ -97,6 +100,91 @@ export const useRestaurantStore = defineStore("restaurant", {
       const restaurant = this.restaurants.find((res) => res.rID === resID);
       if (restaurant) {
         restaurant.status = newStatus;
+      }
+    },
+    async getfID(resID) {
+      const resCol = doc(db, "restaurant", resID);
+      const resSnapshot = await getDoc(resCol);
+      const restaurantData = resSnapshot.data();
+      const foodData = restaurantData.foods || [];
+      if (foodData.length > 0) {
+        const maxfID = foodData.reduce(
+          (max, food) => Math.max(max, food.fID || 0),
+          0
+        );
+        return maxfID + 1;
+      } else {
+        return 1;
+      }
+    },
+    async addFood(foodData, resID) {
+      const newFood = {
+        ...foodData,
+        remainQuantity: foodData.quantity,
+        saled: 0,
+      };
+
+      const resRef = doc(db, "restaurant", resID);
+      try {
+        await updateDoc(resRef, {
+          foods: arrayUnion(newFood),
+        });
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+    async getFood(resID, foodID) {
+      try {
+        const resRef = doc(db, "restaurant", resID);
+        const resSnapshot = await getDoc(resRef);
+        const foodData = resSnapshot.data().foods;
+        this.selectedFood = foodData.find((food) => food.fID === foodID);
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+
+    async deleteFood(resID, foodID) {
+      try {
+        const resRef = doc(db, "restaurant", resID);
+        const resSnapshot = await getDoc(resRef);
+        const foodData = resSnapshot.data().foods;
+
+        const foodIndex = foodData.findIndex((food) => food.fID === foodID);
+
+        if (foodIndex === -1) {
+          throw new Error(`Food with ID ${foodID} not found`);
+        }
+        foodData.splice(foodIndex, 1);
+
+        await updateDoc(resRef, {
+          foods: foodData,
+        });
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+
+    async updateFood(resID, foodID, foodData) {
+      try {
+        const resRef = doc(db, "restaurant", resID);
+        const resSnapshot = await getDoc(resRef);
+        const foods = resSnapshot.data().foods;
+
+        const foodIndex = foods.findIndex((food) => food.fID === foodID);
+
+        if (foodIndex === -1) {
+          throw new Error(`Food with ID ${foodID} not found`);
+        }
+        
+        foods[foodIndex] = { ...foods[foodIndex], ...foodData };
+
+        await updateDoc(resRef, {
+          foods: foods,
+        });
+        
+      } catch (error) {
+        throw new Error(error.message);
       }
     },
   },

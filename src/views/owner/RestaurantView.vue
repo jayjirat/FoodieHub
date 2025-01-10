@@ -36,7 +36,15 @@ const toggleStatus = async (status) => {
               tabindex="0"
               class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
             >
-              <li><button>Add food</button></li>
+              <li>
+                <RouterLink
+                  :to="{
+                    name: 'owner-add-food-view',
+                    params: { rID: rID },
+                  }"
+                  >Add food</RouterLink
+                >
+              </li>
               <li>
                 <RouterLink
                   :to="{
@@ -77,13 +85,21 @@ const toggleStatus = async (status) => {
           :key="index"
         >
           <figure class="m-4">
-            <img :src="food.imageUrl" />
+            <img :src="food.imageUrl" class="w-64 h-64 object-cover" />
           </figure>
           <div class="card-body">
             <h2 class="card-title">{{ food.name }}</h2>
             <p>Saled: {{ food.saled }}</p>
             <div class="card-actions justify-end">
-              <button class="btn btn-primary" type="button">Edit</button>
+              <RouterLink
+                :to="{
+                  name: 'owner-edit-food-view',
+                  params: { rID: rID, fID: food.fID },
+                }"
+                class="btn btn-primary"
+                type="button"
+                >Edit</RouterLink
+              >
             </div>
           </div>
         </div>

@@ -11,6 +11,7 @@ import OwnerView from "../views/owner/OwnerView.vue";
 import OwnerManageView from "../views/owner/ManageView.vue";
 import OwnerCreateView from "../views/owner/CreateView.vue";
 import OwnerRestaurantView from "../views/owner/RestaurantView.vue";
+import OwnerAddFoodView from "../views/owner/AddFoodView.vue";
 
 import { useAccountStore } from "@/stores/account";
 
@@ -81,6 +82,16 @@ const router = createRouter({
       path: "/owner/restaurant/edit/:id",
       name: "owner-edit-view",
       component: OwnerCreateView,
+    },
+    {
+      path: "/owner/restaurant/:rID/addFood",
+      name: "owner-add-food-view",
+      component: OwnerAddFoodView,
+    },
+    {
+      path: "/owner/restaurant/:rID/editFood/:fID",
+      name: "owner-edit-food-view",
+      component: OwnerAddFoodView,
     },
   ],
 });
