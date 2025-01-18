@@ -15,7 +15,7 @@ const createCharge = (source, amount, orderId) => {
       {
         amount: amount * 100,
         currency: "THB",
-        return_uri: `http://localhost:5173/success?order_id=${orderId}`,
+        return_uri: `http://localhost:5173/process?order_id=${orderId}`,
         metadata: {
           orderId,
         },

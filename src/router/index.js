@@ -6,6 +6,7 @@ import HomeView from "../views/user/HomeView.vue";
 import AboutView from "../views/user/AboutView.vue";
 import RestaurantView from "../views/user/RestaurantView.vue";
 import CartView from "../views/user/CartView.vue";
+import ProcessView from "../views/user/ProcessView.vue";
 import SuccessView from "../views/user/SuccessView.vue";
 import OwnerView from "../views/owner/OwnerView.vue";
 import OwnerManageView from "../views/owner/ManageView.vue";
@@ -52,6 +53,11 @@ const router = createRouter({
       path: "/cart",
       name: "cart-view",
       component: CartView,
+    },
+    {
+      path: "/process",
+      name: "processs-view",
+      component: ProcessView,
     },
     {
       path: "/success",

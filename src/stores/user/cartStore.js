@@ -8,6 +8,8 @@ import { useAccountStore } from "@/stores/account";
 import { onValue, ref, set } from "firebase/database";
 import axios from "axios";
 
+import { doc, getDoc } from "firebase/firestore";
+
 Omise.setPublicKey(import.meta.env.VITE_OMISE_PUBLIC_KEY);
 
 const createSource = (amount) => {
@@ -169,6 +171,25 @@ export const useCartStore = defineStore("cart", {
     async clearCart() {
       await set(this.cartRef, []);
       this.carts = [];
+    },
+
+    async checkStatus(orderId) {
+      const orderRef = doc(db, "orders", orderId);
+      const orderSnapshot = await getDoc(orderRef);
+      const orderStatus = orderSnapshot.data().status;
+
+      if (orderStatus === "successful") {
+        return {
+          name: "success-view",
+          query: {
+            order_id: orderId,
+          },
+        };
+      } else {
+        return {
+          name: "home-view",
+        };
+      }
     },
   },
 });
