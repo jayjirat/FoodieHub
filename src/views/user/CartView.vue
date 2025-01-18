@@ -1,12 +1,14 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { RouterLink } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
 
 import UserLayout from "@/layouts/UserLayout.vue";
 
 import { useRestaurantStore } from "@/stores/user/restaurantStore";
 import { useFoodStore } from "@/stores/user/foodStore";
 import { useCartStore } from "@/stores/user/cartStore";
+
+const router = useRouter();
 
 const restaurantStore = useRestaurantStore();
 const foodStore = useFoodStore();
@@ -19,6 +21,31 @@ const tel = ref("");
 
 const deleteCart = (rID, fID) => {
   cartStore.deleteCart(rID, fID);
+};
+
+const checkout = async () => {
+  const checkoutData = {
+    name: name.value,
+    email: email.value,
+    address: address.value,
+    tel: tel.value,
+    lists: [],
+  };
+
+  for (let cart of cartStore.carts) {
+    const foodData = {
+      rID: cart.rID,
+      foods: cart.foods,
+    };
+    checkoutData.lists.push(foodData);
+  }
+
+  const response = await cartStore.checkout(checkoutData);
+  if (response.successOrderId && response.redirectUrl) {
+    await cartStore.clearCart();
+    // redirect to payment
+    window.location.href = response.redirectUrl;
+  }
 };
 </script>
 
@@ -94,7 +121,7 @@ const deleteCart = (rID, fID) => {
             <input
               type="text"
               class="input input-bordered w-full"
-              value="Rabbit_Linepay"
+              value="Rabbit_linepay"
               readonly
             />
           </label>
@@ -118,19 +145,18 @@ const deleteCart = (rID, fID) => {
               rows="5"
               class="textarea textarea-bordered"
               placeholder="Address"
+              v-model="address"
             ></textarea>
           </label>
         </div>
         <div class="flex w-full justify-end p-4">
-          <RouterLink
+          <button
             class="btn btn-neutral w-1/3"
             :class="cartStore.carts.length === 0 ? 'btn-disabled' : ''"
-            :to="{
-              name: 'success-view',
-            }"
+            @click="checkout"
           >
             Check out
-          </RouterLink>
+          </button>
         </div>
       </div>
     </div>

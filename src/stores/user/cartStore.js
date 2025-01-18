@@ -6,6 +6,27 @@ import { useRestaurantStore } from "@/stores/user/restaurantStore";
 import { useAccountStore } from "@/stores/account";
 
 import { onValue, ref, set } from "firebase/database";
+import axios from "axios";
+
+Omise.setPublicKey(import.meta.env.VITE_OMISE_PUBLIC_KEY);
+
+const createSource = (amount) => {
+  return new Promise((resolve, reject) => {
+    Omise.createSource(
+      "rabbit_linepay",
+      {
+        amount: amount * 100,
+        currency: "THB",
+      },
+      (statusCode, response) => {
+        if (statusCode !== 200) {
+          return reject(response);
+        }
+        resolve(response);
+      }
+    );
+  });
+};
 
 export const useCartStore = defineStore("cart", {
   state: () => ({
@@ -121,6 +142,33 @@ export const useCartStore = defineStore("cart", {
         }
       }
       await set(this.cartRef, this.carts);
+    },
+
+    async checkout(checkoutData) {
+      try {
+        const omiseResponse = await createSource(this.summaryAllPrice);
+
+        const response = await axios.post(
+          "/api/placeorder",
+          {
+            source: omiseResponse.id, // Omise source token
+            checkout: checkoutData,
+          },
+          {
+            headers: {
+              Authorization: this.user.accessToken,
+            },
+          }
+        );
+        return response.data;
+      } catch (error) {
+        console.log(error.message);
+      }
+    },
+
+    async clearCart() {
+      await set(this.cartRef, []);
+      this.carts = [];
     },
   },
 });

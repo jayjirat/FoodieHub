@@ -53,7 +53,7 @@ const addToCart = (food, rID) => {
           :key="index"
         >
           <figure>
-            <img :src="food.imageUrl" />
+            <img :src="food.imageUrl" class="w-64 h-64 object-cover" />
           </figure>
           <div class="card-body">
             <h2 class="card-title">{{ food.name }}</h2>
