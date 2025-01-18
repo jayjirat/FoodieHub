@@ -186,6 +186,7 @@ export const useCartStore = defineStore("cart", {
           },
         };
       } else {
+        alert("Order unsuccessful please try again");
         return {
           name: "home-view",
         };

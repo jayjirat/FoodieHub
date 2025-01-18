@@ -18,12 +18,14 @@ const name = ref("");
 const email = ref("");
 const address = ref("");
 const tel = ref("");
+const isLoading = ref(false);
 
 const deleteCart = (rID, fID) => {
   cartStore.deleteCart(rID, fID);
 };
 
 const checkout = async () => {
+  isLoading.value = true;
   const checkoutData = {
     name: name.value,
     email: email.value,
@@ -41,6 +43,7 @@ const checkout = async () => {
   }
 
   const response = await cartStore.checkout(checkoutData);
+  isLoading.value = false;
   if (response.successOrderId && response.redirectUrl) {
     await cartStore.clearCart();
     // redirect to payment
@@ -155,7 +158,11 @@ const checkout = async () => {
             :class="cartStore.carts.length === 0 ? 'btn-disabled' : ''"
             @click="checkout"
           >
-            Check out
+            <span
+              v-show="isLoading"
+              class="loading loading-spinner loading-sm"
+            ></span
+            >Check out
           </button>
         </div>
       </div>
