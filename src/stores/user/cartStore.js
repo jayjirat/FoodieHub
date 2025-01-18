@@ -8,7 +8,14 @@ import { useAccountStore } from "@/stores/account";
 import { onValue, ref, set } from "firebase/database";
 import axios from "axios";
 
-import { doc, getDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 
 Omise.setPublicKey(import.meta.env.VITE_OMISE_PUBLIC_KEY);
 
@@ -191,6 +198,21 @@ export const useCartStore = defineStore("cart", {
           name: "home-view",
         };
       }
+    },
+
+    async loadUserOrder() {
+      console.log();
+
+      const userOrderCol = query(
+        collection(db, "orders"),
+        where("userUid", "==", this.user.uid),
+        where("status", "==", "successful")
+      );
+      const userOrderSnapshot = await getDocs(userOrderCol);
+      const userOrderList = userOrderSnapshot.docs.map((doc) => {
+        return { id: doc.id, ...doc.data() };
+      });
+      return userOrderList;
     },
   },
 });

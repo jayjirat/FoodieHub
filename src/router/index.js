@@ -4,6 +4,8 @@ import RegisterView from "../views/RegisterView.vue";
 import ProfileView from "../views/user/ProfileView.vue";
 import HomeView from "../views/user/HomeView.vue";
 import AboutView from "../views/user/AboutView.vue";
+import OrderView from "../views/user/OrderView.vue";
+
 import RestaurantView from "../views/user/RestaurantView.vue";
 import CartView from "../views/user/CartView.vue";
 import ProcessView from "../views/user/ProcessView.vue";
@@ -33,6 +35,11 @@ const router = createRouter({
       path: "/home",
       name: "home-view",
       component: HomeView,
+    },
+    {
+      path: "/myorder",
+      name: "order-view",
+      component: OrderView,
     },
     {
       path: "/about",

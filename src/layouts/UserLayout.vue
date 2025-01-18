@@ -79,7 +79,14 @@ const toggleTheme = () => {
               >Homepage</RouterLink
             >
           </li>
-          <li><a>My order</a></li>
+          <li>
+            <RouterLink
+              :to="{
+                name: 'order-view',
+              }"
+              >My order</RouterLink
+            >
+          </li>
           <li>
             <RouterLink
               :to="{
