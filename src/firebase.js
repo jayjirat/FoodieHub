@@ -2,10 +2,10 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 import { getAuth, connectAuthEmulator } from "firebase/auth";
 import { getDatabase, connectDatabaseEmulator } from "firebase/database";
-import { getStorage, connectStorageEmulator } from 'firebase/storage'
+import { getStorage, connectStorageEmulator } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAxLJk9P7knFKnJ7L70nCaiOguCTTDSjfo",
+  apiKey: process.env.FIREBASE_API_KEY,
   authDomain: "foodiehub-3512f.firebaseapp.com",
   databaseURL:
     "https://foodiehub-3512f-default-rtdb.asia-southeast1.firebasedatabase.app",
@@ -27,8 +27,7 @@ connectAuthEmulator(auth, "http://127.0.0.1:9099");
 const realtimeDB = getDatabase(app);
 connectDatabaseEmulator(realtimeDB, "127.0.0.1", 9001);
 
-const storage = getStorage()
-connectStorageEmulator(storage, '127.0.0.1', 9199)
+const storage = getStorage();
+connectStorageEmulator(storage, "127.0.0.1", 9199);
 
-
-export { db, auth, realtimeDB,storage };
+export { db, auth, realtimeDB, storage };
